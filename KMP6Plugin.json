@@ -1,0 +1,8 @@
+{
+    "Id": "OpenRGB-KMP6-Plugin",
+    "Name": "KMP6",
+    "VersionStr": "1.0.0",
+    "Commit": "",
+    "Url": "https://github.com/Tom-8192/OpenRGB-KMP6-Plugin",
+    "OpenRGBPluginAPIVersion": 5
+}

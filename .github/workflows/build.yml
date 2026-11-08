@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install Qt
+        run: sudo apt-get update && sudo apt-get install -y qt6-base-dev qmake6
+      - name: Test
+        run: |
+          g++ -std=c++17 -Wall -Wextra -Werror -Isrc tests/protocol_test.cpp src/KMP6Protocol.cpp -o protocol_test
+          ./protocol_test
+      - name: Build
+        run: |
+          mkdir build && cd build
+          qmake6 ../OpenRGB-KMP6.pro CONFIG+=release
+          make -j"$(nproc)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB-KMP6-linux-x64-qt6
+          path: build/libOpenRGB-KMP6.so
+          if-no-files-found: error

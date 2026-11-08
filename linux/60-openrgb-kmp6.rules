@@ -1,0 +1,5 @@
+# OpenRGB KM-P6 plugin (Aukey KM-P6 RGB mouse pad): access to /dev/bus/usb/BBB/DDD for the logged-in user
+# The lighting interface has no endpoint, so Linux creates no hidraw node for it; the plugin uses usbfs.
+# Same rule as the KM-P6 RGB Tool; install one of them:
+# sudo cp 60-openrgb-kmp6.rules /etc/udev/rules.d/ && sudo udevadm control --reload && sudo udevadm trigger
+SUBSYSTEM=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="a1fa", MODE="0660", TAG+="uaccess"
